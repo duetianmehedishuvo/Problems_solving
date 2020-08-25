@@ -14,7 +14,7 @@ int main()
         }
         m=lm-fm;
         if(fh>lh){
-            h=fh-lh;
+            h=24-(fh-lh);
             cout<<"O JOGO DUROU "<<h<<" HORA(S) E "<<m<<" MINUTO(S)"<<endl;
         }else if(fh==lh && fm==lm)
             cout<<"O JOGO DUROU 24 HORA(S) E 0 MINUTO(S)"<<endl;
