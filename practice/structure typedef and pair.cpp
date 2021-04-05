@@ -1,5 +1,4 @@
-#include<iostream>
-
+#include<bits/stdc++.h>
 #define ll long long
 typedef long long li;
 const long long lim=100;
@@ -16,8 +15,10 @@ struct Information{
 int main()
 {
     pair<int,int> pa;
-    cin>>pa.first>>pa.second;
+    //cin>>pa.first>>pa.second;
+    pa=make_pair(10,20);
     cout<<pa.first<<" "<<pa.second<<endl;
+
 
     ll data;
     //cin>>data;

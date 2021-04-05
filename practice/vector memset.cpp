@@ -89,5 +89,27 @@ int main()
     }
     cout<<endl;
     cout<<endl;
+
+    vector<int> vec(5);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    vec.push_back(101);
+    cout<<vec.size()<<endl;
+    cout<<endl;
+
+    char str[]="Hello World";
+    //memset(str,'P',7);
+    memset(str,65,(sizeof(vcc)/2)-1);
+    cout<<str;
+
     return 0;
 }
