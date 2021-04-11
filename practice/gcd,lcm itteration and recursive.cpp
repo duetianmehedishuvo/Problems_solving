@@ -17,9 +17,14 @@ int main()
         else b-=a;
     }
     cout<<"GCD using While Loop: "<<tempA<<","<<tempB<<"="<<a<<endl<<endl;
-    a=36;
-    b=60;
+    a=tempA;
+    b=tempB;
     cout<<"GCD using Recursive Function: "<<a<<","<<b<<"="<<gcd(a,b)<<endl<<endl;
+
+    // LCM Example
+    a=tempA;
+    b=tempB;
+    cout<<"LCM Of: "<<tempA<<","<<tempB<<"="<<((a*b)/(gcd(a,b)))<<endl;
 
     return 0;
 }
