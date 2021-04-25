@@ -1,0 +1,13 @@
+Subset Sum:
+UVa: 562,574,10482,10664,11137,11658
+Baking Cake: 2D SubSet Sum Stanford Local Contest 07(Baking Cakes)
+Coin Change: 
+UVa: 147,166,357,674,11517 TCHS SRM 23 1000
+LightOJ:  1231,1232,1233
+Longest Path: 
+http://www.codechef.com/IOPC2012/problems/IOPC1214
+Triangle GraphConcept + DP:
+http://www.codechef.com/problems/SUMTRIAN
+http://www.codechef.com/problems/E1/
+TJU: 3457
+LightOJ: 1004, 1169
