@@ -4,7 +4,7 @@
 
 | Title | Url | Solve |
 | ------ | ------ |----|
-| Algorithm | https://github.com/duetianmehedishuvo/Problems_solving/tree/master/ALGORITHOM | 5 |
+| Algorithm | https://github.com/duetianmehedishuvo/Problems_solving/tree/master/ALGORITHOM | 7 |
 | Atcoder | https://github.com/duetianmehedishuvo/Problems_solving/tree/master/Atcoder |2|
 | Books |https://github.com/duetianmehedishuvo/Problems_solving/tree/master/Books||
 | CodeForces |https://github.com/duetianmehedishuvo/Problems_solving/tree/master/CodeForces |16|
