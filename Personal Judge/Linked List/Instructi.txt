@@ -1,0 +1,1 @@
+Please keep both on the same folder when run practice.cpp. That is the input file for that program.
