@@ -4,7 +4,7 @@
 
 #include <bits/stdc++.h>
 #include <windows.h>
-#include<conio.h>
+#include <conio.h>
 using namespace std;
 
 void gotoxy(short x, short y)
@@ -15,7 +15,7 @@ void gotoxy(short x, short y)
 
 
 //***************************************************************
-//                   CLASS USED IN PROJECT
+///                   CLASS USED IN PROJECT
 //****************************************************************
 
 class Book
@@ -23,29 +23,10 @@ class Book
     char bookNo[6];
     char bookName[50];
     char bookAuthorName[20];
+    friend std::ostream &operator<<(std::ostream &out, const Book &book);
+    friend std::istream &operator>>(std::istream &in, Book &book);
 
 public:
-    void create_book()
-    {
-        cin.ignore();
-        cout << "\nNew Book Entry.....\n";
-        cout << "\nEnter The Book No: ";
-        cin >> bookNo;
-        cin.ignore();
-        cout << "\nEnter the name of the Book: ";
-        cin.getline(bookName, 50, '\n');
-        cout << "\nEnter the Author's Name: ";
-        cin.getline(bookAuthorName, 20, '\n');
-        cout << "\n\nBook Created Successfully..";
-    }
-
-    void show_book()
-    {
-        cout << "\nBook No: " << bookNo;
-        cout << "\nBook Name: " << bookName;
-        cout << "\nAuthor: " << bookAuthorName;
-    }
-
     void modify_book()
     {
         cout << "\nBook No: " << bookNo;
@@ -68,9 +49,9 @@ public:
     }
 };
 
-// **************************  Book class ends here
+/// **************************  Book class ends here ****************
 
-//**************************** Student CLass Start ************//
+///**************************** Student CLass Start ************//
 
 class Student
 {
@@ -79,31 +60,10 @@ class Student
     char name[20];
     char issueBookNo[6];
     int token;
+    friend std::ostream &operator<<(std::ostream &out, const Student &book);
+    friend std::istream &operator>>(std::istream &in, Student &book);
 
 public:
-    void createStudent()
-    {
-        cin.ignore();
-        cout << "\nNew Student Entry....\n";
-        cout << "\nStudent Id: ";
-        cin >> id;
-        cin.ignore();
-        cout << "\nName: ";
-        cin.getline(name, 20, '\n');
-        issueBookNo[0] = '/0';
-        token = 0;
-        cout << "\n\nStudent Record Created Successfull..";
-    }
-
-    void showStudent()
-    {
-        cout << "\nId: " << id;
-        cout << "\nName: " << name;
-        cout << "\nNo Of Book Issued: " << token;
-        if (token == 1)
-            cout << "\nBook No: " << issueBookNo;
-    }
-
     void modifyStudent()
     {
         cout << "\nStudent ID: " << id;
@@ -138,13 +98,74 @@ public:
     }
     void report()
     {
-        cout <<"\t"<< id << setw(12) << name << setw(20) << token << endl;
+        cout << "\t" << id << setw(12) << name << setw(20) << token << endl;
     }
 };
 ///**************** Student Class End Here**************
 
+
+
+
+
+
 //***************************************************************
-//    	global declaration for stream object, object
+///                   Operator Overloading IN PROJECT
+//****************************************************************
+
+ostream &operator<<(ostream &out, const Book &book)
+{
+    out << "\nBook No: " << book.bookNo;
+    out << "\nBook Name: " << book.bookName;
+    out << "\nAuthor: " << book.bookAuthorName;
+
+    return out;
+}
+
+ostream &operator<<(ostream &out, const Student &student)
+{
+    out << "\nId: " << student.id;
+    out << "\nName: " << student.name;
+    out << "\nNo Of Book Issued: " << student.token;
+    if (student.token == 1)
+        out << "\nBook No: " << student.issueBookNo;
+
+    return out;
+}
+
+istream &operator>>(istream &in, Book &book)
+{
+    in.ignore();
+    cout << "\nNew Book Entry.....\n";
+    cout << "\nEnter The Book No: ";
+    in >> book.bookNo;
+    in.ignore();
+    cout << "\nEnter the name of the Book: ";
+    in.getline(book.bookName, 50, '\n');
+    cout << "\nEnter the Author's Name: ";
+    in.getline(book.bookAuthorName, 20, '\n');
+    cout << "\n\nBook Created Successfully..";
+
+    return in;
+}
+
+istream &operator>>(istream &in, Student &student)
+{
+    cin.ignore();
+    cout << "\nNew Student Entry....\n";
+    cout << "\nStudent Id: ";
+    in >> student.id;
+    in.ignore();
+    cout << "\nName: ";
+    in.getline(student.name, 20, '\n');
+    student.issueBookNo[0] = '/0';
+    student.token = 0;
+    cout << "\n\nStudent Record Created Successfull..";
+
+    return in;
+}
+
+//***************************************************************
+///    	global declaration for stream object, object
 //****************************************************************
 fstream fp, fp1;
 
@@ -173,7 +194,7 @@ class Adminestrator : public Book, public Student
 
 public:
     //***************************************************************
-    //    	function to write in file
+    ///    	function to write in file
     //****************************************************************
 
     void writeBook()
@@ -182,12 +203,11 @@ public:
         fp.open("book.dat", ios::out | ios::app);
         do
         {
-            book.create_book();
+            cin >> book;
             fp.write((char *)&book, sizeof(Book));
             cout << "\n\nDo you Want to add more record..(y/n?): ";
             cin >> ch;
-        }
-        while (ch == 'y' || ch == 'Y');
+        } while (ch == 'y' || ch == 'Y');
         fp.close();
     }
 
@@ -197,17 +217,16 @@ public:
         fp.open("student.dat", ios::out | ios::app);
         do
         {
-            student.createStudent();
+            cin >> student;
             fp.write((char *)&student, sizeof(Student));
             cout << "\n\nDo you want to add more record....(Y/n?): ";
             cin >> ch;
-        }
-        while (ch == 'Y' || ch == 'y');
+        } while (ch == 'Y' || ch == 'y');
         fp.close();
     }
 
     //***************************************************************
-    //    	function to read specific record from file
+    ///   	function to read specific record from file
     //****************************************************************
 
     void displaySpecificBook(char n[])
@@ -219,7 +238,7 @@ public:
         {
             if (strcmpi(book.returnBookNo(), n) == 0)
             {
-                book.show_book();
+                cout << book;
                 flag = 1;
             }
         }
@@ -237,7 +256,7 @@ public:
         {
             if ((strcmpi(student.returnID(), n) == 0))
             {
-                student.showStudent();
+                cout << student;
                 flag = 1;
             }
         }
@@ -247,7 +266,7 @@ public:
     }
 
     //***************************************************************
-    //    	function to modify record of file
+    ///    	function to modify record of file
     //****************************************************************
 
     void modifyBook()
@@ -262,7 +281,7 @@ public:
         {
             if (strcmpi(book.returnBookNo(), n) == 0)
             {
-                book.show_book();
+                cout << book;
                 cout << "\nEnter The New Details of Book\n";
                 book.modify_book();
                 int pos = -1 * sizeof(book);
@@ -289,7 +308,7 @@ public:
         {
             if (strcmpi(student.returnID(), n) == 0)
             {
-                student.showStudent();
+                cout << student;
                 cout << "\nEnter the new Details of Student: \n";
                 student.modifyStudent();
                 int pos = -1 * sizeof(student);
@@ -306,7 +325,7 @@ public:
     }
 
     //***************************************************************
-    //    	function to delete record of file
+    ///    	function to delete record of file
     //****************************************************************
 
     void deleteBook()
@@ -350,20 +369,21 @@ public:
             {
                 fp2.write((char *)&student, sizeof(Student));
             }
-            else flag=1;
+            else
+                flag = 1;
         }
         fp2.close();
         fp.close();
         remove("student.dat");
         rename("temp.dat", "student.dat");
-        if(flag==1)
-            cout<<"\n\n\tRecord Deleted ..";
+        if (flag == 1)
+            cout << "\n\n\tRecord Deleted ..";
         else
-            cout<<"\n\nRecord not found";
+            cout << "\n\nRecord not found";
     }
 
     //***************************************************************
-    //    	function to display all students list
+    ///    	function to display all students list
     //****************************************************************
 
     void displayAllBooks()
@@ -375,9 +395,9 @@ public:
             return;
         }
         cout << "\n\n\t\t Book List\n\n";
-        cout<<"=========================================================================\n";
-        cout<<"Book Number"<<setw(30)<<"Book Name"<<setw(30)<<"Author\n";
-        cout<<"=========================================================================\n";
+        cout << "=========================================================================\n";
+        cout << "Book Number" << setw(30) << "Book Name" << setw(30) << "Author\n";
+        cout << "=========================================================================\n";
         while (fp.read((char *)&book, sizeof(Book)))
         {
             book.report();
@@ -395,9 +415,9 @@ public:
         }
 
         cout << "\n\n\t\t Student List\n\n";
-        cout<<"==================================================================\n";
-        cout<<"\tID"<<setw(15)<<"Name"<<setw(20)<<"Book Issued\n";
-        cout<<"==================================================================\n";
+        cout << "==================================================================\n";
+        cout << "\tID" << setw(15) << "Name" << setw(20) << "Book Issued\n";
+        cout << "==================================================================\n";
 
         while (fp.read((char *)&student, sizeof(Student)))
         {
@@ -408,7 +428,7 @@ public:
     }
 
     //***************************************************************
-    //    	function to issue book
+    ///    	function to issue book
     //****************************************************************
     void bookIssue()
     {
@@ -433,7 +453,7 @@ public:
                     {
                         if (strcmpi(book.returnBookNo(), bookNo) == 0)
                         {
-                            book.show_book();
+                            cout << book;
                             flag = 1;
                             student.setToken();
                             student.getsIssueBookNo(book.returnBookNo());
@@ -460,7 +480,7 @@ public:
     }
 
     //***************************************************************
-    //    	function to deposit book
+    ///    	function to deposit book
     //****************************************************************
 
     void bookDeposit()
@@ -483,7 +503,7 @@ public:
                     {
                         if (strcmpi(book.returnBookNo(), student.returnIssueBooKNo()) == 0)
                         {
-                            book.show_book();
+                            cout << book;
                             flag = 1;
                             cout << "\n\nBook deposited in No. of days: ";
                             cin >> day;
@@ -516,7 +536,7 @@ public:
 };
 
 //***************************************************************
-//    	INTRODUCTION FUNCTION
+///    	INTRODUCTION FUNCTION
 //****************************************************************
 
 void intro()
@@ -533,7 +553,7 @@ void intro()
 }
 
 //***************************************************************
-//    	ADMINISTRATOR MENU FUNCTION
+///    	ADMINISTRATOR MENU FUNCTION
 //****************************************************************
 
 void admin_menu()
@@ -608,9 +628,8 @@ void admin_menu()
 }
 
 //***************************************************************
-//    	THE MAIN FUNCTION OF PROGRAM
+///    	THE MAIN FUNCTION OF PROGRAM
 //****************************************************************
-
 
 int main()
 {
@@ -620,14 +639,14 @@ int main()
     do
     {
 
-        cout<<"\n\n\n\tMAIN MENU";
-        cout<<"\n\n\t01. BOOK ISSUE";
-        cout<<"\n\n\t02. BOOK DEPOSIT";
-        cout<<"\n\n\t03. ADMINISTRATOR MENU";
-        cout<<"\n\n\t04. EXIT";
-        cout<<"\n\n\tPlease Select Your Option (1-4) ";
-        ch=getche();
-        switch(ch)
+        cout << "\n\n\n\tMAIN MENU";
+        cout << "\n\n\t01. BOOK ISSUE";
+        cout << "\n\n\t02. BOOK DEPOSIT";
+        cout << "\n\n\t03. ADMINISTRATOR MENU";
+        cout << "\n\n\t04. EXIT";
+        cout << "\n\n\tPlease Select Your Option (1-4) ";
+        ch = getche();
+        switch (ch)
         {
         case '1':
             adminestrator.bookIssue();
@@ -640,14 +659,13 @@ int main()
             break;
         case '4':
             exit(0);
-        default :
-            cout<<"\a";
+        default:
+            cout << "\a";
         }
-    }
-    while(ch!='4');
+    } while (ch != '4');
     return 0;
 }
 
 //***************************************************************
-//    			END OF PROJECT
+///    			END OF PROJECT
 //***************************************************************
