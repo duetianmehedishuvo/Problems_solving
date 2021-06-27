@@ -13,7 +13,6 @@ void gotoxy(short x, short y)
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-
 //***************************************************************
 ///                   CLASS USED IN PROJECT
 //****************************************************************
@@ -21,7 +20,7 @@ void gotoxy(short x, short y)
 class Book
 {
     char bookNo[6];
-    char bookName[50];
+    char bookName[30];
     char bookAuthorName[20];
     friend std::ostream &operator<<(std::ostream &out, const Book &book);
     friend std::istream &operator>>(std::istream &in, Book &book);
@@ -30,11 +29,11 @@ public:
     void modify_book()
     {
         cout << "\nBook No: " << bookNo;
-        cin.ignore();
         cout << "\nModify Book Name: ";
-        cin.getline(bookName, 50, '\n');
         cin.ignore();
+        cin.getline(bookName, 50, '\n');
         cout << "\nModify Author's Name Of Book: ";
+        cin.clear();
         cin.getline(bookAuthorName, 20, '\n');
     }
 
@@ -45,7 +44,10 @@ public:
 
     void report()
     {
-        cout << bookNo << setw(30) << bookName << setw(30) << bookAuthorName << endl;
+        cout << setw(11) << left << bookNo
+             << " | " << setw(30) << left << bookName
+             << " | " << setw(20) << left << bookAuthorName
+             << " | " << endl;
     }
 };
 
@@ -67,8 +69,8 @@ public:
     void modifyStudent()
     {
         cout << "\nStudent ID: " << id;
-        cin.ignore();
         cout << "\nModify Student Name: ";
+        cin.ignore();
         cin.getline(name, 20, '\n');
     }
 
@@ -98,15 +100,13 @@ public:
     }
     void report()
     {
-        cout << "\t" << id << setw(12) << name << setw(20) << token << endl;
+        cout << setw(6) << left << id
+             << " | " << setw(20) << left << name
+             << " | " << setw(5) << left << token
+             << " | " << endl;
     }
 };
 ///**************** Student Class End Here**************
-
-
-
-
-
 
 //***************************************************************
 ///                   Operator Overloading IN PROJECT
@@ -114,34 +114,50 @@ public:
 
 ostream &operator<<(ostream &out, const Book &book)
 {
-    out << "\nBook No: " << book.bookNo;
-    out << "\nBook Name: " << book.bookName;
-    out << "\nAuthor: " << book.bookAuthorName;
+    out << ".....................................................................\n";
+    out << setw(11) << left << "Book Number"
+        << " | " << setw(30) << left << "Book Name"
+        << " | " << setw(20) << left << "Author"
+        << " | " << endl;
+    out << ".....................................................................\n";
+    out << setw(11) << left << book.bookNo
+        << " | " << setw(30) << left << book.bookName
+        << " | " << setw(20) << left << book.bookAuthorName
+        << " | " << endl;
 
     return out;
 }
 
 ostream &operator<<(ostream &out, const Student &student)
 {
-    out << "\nId: " << student.id;
-    out << "\nName: " << student.name;
-    out << "\nNo Of Book Issued: " << student.token;
-    if (student.token == 1)
-        out << "\nBook No: " << student.issueBookNo;
+    out << ".....................................................................\n";
+    out << setw(6) << left << "ID"
+        << " | " << setw(20) << left << "NAME"
+        << " | " << setw(5) << left << "TOKEN"
+        << " | " << setw(13) << left << "ISSUE BOOK NO"
+        << " | " << endl;
+    out << ".....................................................................\n";
+
+    out << setw(6) << left << student.id
+        << " | " << setw(20) << left << student.name
+        << " | " << setw(5) << left << student.token
+        << " | " << setw(13) << left << student.issueBookNo
+        << " | " << endl;
 
     return out;
 }
 
 istream &operator>>(istream &in, Book &book)
 {
-    in.ignore();
+
     cout << "\nNew Book Entry.....\n";
     cout << "\nEnter The Book No: ";
     in >> book.bookNo;
-    in.ignore();
     cout << "\nEnter the name of the Book: ";
-    in.getline(book.bookName, 50, '\n');
+    in.ignore();
+    in.getline(book.bookName, 30, '\n');
     cout << "\nEnter the Author's Name: ";
+    in.clear();
     in.getline(book.bookAuthorName, 20, '\n');
     cout << "\n\nBook Created Successfully..";
 
@@ -150,14 +166,14 @@ istream &operator>>(istream &in, Book &book)
 
 istream &operator>>(istream &in, Student &student)
 {
-    cin.ignore();
+
     cout << "\nNew Student Entry....\n";
     cout << "\nStudent Id: ";
     in >> student.id;
-    in.ignore();
     cout << "\nName: ";
+    in.ignore();
     in.getline(student.name, 20, '\n');
-    student.issueBookNo[0] = '/0';
+    student.issueBookNo[0] = '\0';
     student.token = 0;
     cout << "\n\nStudent Record Created Successfull..";
 
@@ -169,23 +185,9 @@ istream &operator>>(istream &in, Student &student)
 //****************************************************************
 fstream fp, fp1;
 
-void fpopenBook()
-{
-    fp.read("book.dat", ios::in | ios::out);
-}
-void fpCloseBook()
-{
-    fp.close();
-}
-
-void fpopenStudent()
-{
-    fp.read("student.dat", ios::in | ios::out);
-}
-void fpCloseStudent()
-{
-    fp.close();
-}
+//***************************************************************
+///    	Adminestrator Section
+//****************************************************************
 
 class Adminestrator : public Book, public Student
 {
@@ -284,7 +286,7 @@ public:
                 cout << book;
                 cout << "\nEnter The New Details of Book\n";
                 book.modify_book();
-                int pos = -1 * sizeof(book);
+                long long unsigned int pos = -1 * sizeof(Book);
                 fp.seekp(pos, ios::cur);
                 fp.write((char *)&book, sizeof(Book));
                 cout << "\n\n\t Record Updated...";
@@ -311,7 +313,7 @@ public:
                 cout << student;
                 cout << "\nEnter the new Details of Student: \n";
                 student.modifyStudent();
-                int pos = -1 * sizeof(student);
+                long long unsigned int pos = -1 * sizeof(Student);
                 fp.seekp(pos, ios::cur);
                 fp.write((char *)&student, sizeof(Student));
                 cout << "\n\n\t Record Update Successfull....";
@@ -395,9 +397,14 @@ public:
             return;
         }
         cout << "\n\n\t\t Book List\n\n";
-        cout << "=========================================================================\n";
-        cout << "Book Number" << setw(30) << "Book Name" << setw(30) << "Author\n";
-        cout << "=========================================================================\n";
+
+        cout << "*********************************************************************\n";
+        cout << setw(11) << left << "Book Number"
+             << " | " << setw(30) << left << "Book Name"
+             << " | " << setw(20) << left << "Author"
+             << " | " << endl;
+        cout << "*********************************************************************\n";
+
         while (fp.read((char *)&book, sizeof(Book)))
         {
             book.report();
@@ -416,7 +423,10 @@ public:
 
         cout << "\n\n\t\t Student List\n\n";
         cout << "==================================================================\n";
-        cout << "\tID" << setw(15) << "Name" << setw(20) << "Book Issued\n";
+        cout << setw(6) << left << "ID"
+             << " | " << setw(20) << left << "NAME"
+             << " | " << setw(5) << left << "TOKEN"
+             << " | " << endl;
         cout << "==================================================================\n";
 
         while (fp.read((char *)&student, sizeof(Student)))
@@ -457,10 +467,10 @@ public:
                             flag = 1;
                             student.setToken();
                             student.getsIssueBookNo(book.returnBookNo());
-                            int pos = -1 * sizeof(student);
+                            long long unsigned int pos = -1 * sizeof(Student);
                             fp.seekp(pos, ios::cur);
                             fp.write((char *)&student, sizeof(Student));
-                            cout << "\n\n\tBook issued successfull\n\Please Note: Write the current date in backside of your book and submit within 15 days fine Taka. 1 for each day after 15 days period.";
+                            cout << "\n\n\tBook issued successfull\n\nPlease Note: Write the current date in backside of your book and submit within 15 days fine Taka. 1 for each day after 15 days period.";
                         }
                     }
                     if (flag == 0)
@@ -513,7 +523,7 @@ public:
                                 cout << "\n\nFine has to deposited Taka. " << fine;
                             }
                             student.resetToken();
-                            int pos = -1 * sizeof(student);
+                            long long unsigned int pos = -1 * sizeof(Student);
                             fp.seekp(pos, ios::cur);
                             fp.write((char *)&student, sizeof(Student));
                             cout << "\n\n\tBook Deposited successfully.";
@@ -542,14 +552,16 @@ public:
 void intro()
 {
 
-    gotoxy(35, 11);
-    cout << "LIBRARY";
-    gotoxy(35, 14);
-    cout << "MANAGEMENT";
-    gotoxy(35, 17);
-    cout << "SYSTEM";
-    cout << "\n\nMADE BY : MEHEDI HASAN SHUVO";
-    cout << "\n\nUniversity : Dhaka University & Engineering Technology";
+    gotoxy(20, 14);
+    cout << "---->> LIBRARY <<------";
+    gotoxy(20, 15);
+    cout << "---->> MANAGEMENT <<------";
+    gotoxy(20, 16);
+    cout << "---->> SYSTEM <<------";
+    cout << "\n\n\t\tMADE BY : MEHEDI HASAN SHUVO";
+    cout << "\n\t\tID : 194016";
+    cout << "\n\t\tDEPARTMENT: CSE";
+    cout << "\n\t\tUniversity : Dhaka University & Engineering Technology";
 }
 
 //***************************************************************
@@ -574,7 +586,7 @@ void admin_menu()
     cout << "\n\n\t9.MODIFY BOOK ";
     cout << "\n\n\t10.DELETE BOOK ";
     cout << "\n\n\t11.BACK TO MAIN MENU";
-    cout << "\n\n\tPlease Enter Your Choice (1-11) ";
+    cout << "\n\n\tPlease Enter Your Choice (1-11): ";
     cin >> ch2;
     switch (ch2)
     {
@@ -588,7 +600,7 @@ void admin_menu()
     case 3:
         char num[6];
 
-        cout << "\n\n\tPlease Enter The Admission No. ";
+        cout << "\n\n\tPlease Enter The Admission No: ";
         cin >> num;
         adminestrator.displaySpecificStudent(num);
         break;
@@ -608,7 +620,7 @@ void admin_menu()
     {
         char num[6];
 
-        cout << "\n\n\tPlease Enter The book No. ";
+        cout << "\n\n\tPlease Enter The book No: ";
         cin >> num;
         adminestrator.displaySpecificBook(num);
         break;
@@ -644,7 +656,7 @@ int main()
         cout << "\n\n\t02. BOOK DEPOSIT";
         cout << "\n\n\t03. ADMINISTRATOR MENU";
         cout << "\n\n\t04. EXIT";
-        cout << "\n\n\tPlease Select Your Option (1-4) ";
+        cout << "\n\n\tPlease Select Your Option (1-4): ";
         ch = getche();
         switch (ch)
         {
