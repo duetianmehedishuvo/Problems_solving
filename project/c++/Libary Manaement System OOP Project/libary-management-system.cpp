@@ -561,7 +561,7 @@ void intro()
     cout << "\n\n\t\tMADE BY : MEHEDI HASAN SHUVO";
     cout << "\n\t\tID : 194016";
     cout << "\n\t\tDEPARTMENT: CSE";
-    cout << "\n\t\tUniversity : Dhaka University & Engineering Technology";
+    cout << "\n\t\tUniversity : Dhaka University of Engineering & Technology";
 }
 
 //***************************************************************

@@ -1,55 +1,16 @@
+//                           Header File in Project
+//************************************************************
 #include <bits/stdc++.h>
 #include <conio.h>
 using namespace std;
-
+///                   CLASS USED IN PROJECT
+//****************************************************************
 class Item
 {
 public:
     char id[6];
     char name[20];
 };
-
-class Player : public Item
-{
-    char teamID[6];
-    int isAlrounder;
-    int isTopBoller;
-    int isTopBatsman;
-    float battingAvg;
-    float bollingAVg;
-    friend std::ostream &operator<<(std::ostream &out, const Player &player);
-    friend std::istream &operator>>(std::istream &in, Player &player);
-
-public:
-    void modifyPlayer()
-    {
-        cout << "\nPlayer ID: " << id;
-        cout << "\nName: ";
-        cin.ignore();
-        cin.getline(name, sizeof(name), '\n');
-        cout << "\nTeam ID: ";
-        cin >> teamID;
-        cout << "\nIs Alrounder? : ";
-        cin >> isAlrounder;
-        cout << "\nIs Top Batsman? : ";
-        cin >> isTopBatsman;
-        cout << "\nIs Top Boller? : ";
-        cin >> isTopBoller;
-        cout << "\nBatting Average: ";
-        cin >> battingAvg;
-        cout << "\nBolling Average: ";
-        cin >> bollingAVg;
-    }
-
-    char *getPlayerID() { return id; }
-    char *getTeamID() { return teamID; }
-
-    void report()
-    {
-        cout << setw(6) << left << id << " | " << setw(20) << left << name << " | " << setw(7) << left << teamID << " | " << setw(9) << left << isAlrounder << " | " << setw(10) << left << isTopBatsman << " | " << setw(9) << left << isTopBoller << " | " << setw(11) << left << battingAvg << " | " << setw(11) << left << bollingAVg << " | " << endl;
-    }
-};
-
 class Team : public Item
 {
     int winODI;
@@ -81,10 +42,8 @@ public:
         cout << "\nLost T20?: ";
         cin >> lostT20;
     }
-
     void modifyTeamAfterResult(bool win, int statusODI, int statusTEST, int statusT20)
     {
-        cout << "\nTeam ID: " << id;
 
         if (win == true)
         {
@@ -95,32 +54,37 @@ public:
         else
         {
             lostODI += statusODI;
-            lostTest += statusTEST;
+            lostTest+= statusTEST;
             lostT20 += statusT20;
         }
     }
 
-    char *getTeamID() { return id; }
+    char *getTeamID()
+    {
+        return id;
+    }
 
     void report()
     {
         cout << setw(6) << left << id
-             << " | " << setw(20) << left << name
-             << " | " << setw(7) << left << winODI
-             << " | " << setw(8) << left << lostODI
-             << " | " << setw(8) << left << winTest
-             << " | " << setw(9) << left << lostTest
-             << " | " << setw(7) << left << winT20
-             << " | " << setw(8) << left << lostT20
-             << " | " << endl;
+             << " * " << setw(20) << left << name
+             << " * " << setw(7) << left << winODI
+             << " * " << setw(9) << left << lostODI
+             << " * " << setw(8) << left << winTest
+             << " * " << setw(9) << left << lostTest
+             << " * " << setw(7) << left << winT20
+             << " * " << setw(8) << left << lostT20
+             << " * " << endl;
     }
 };
-
 class Schedulling : public Team
 {
     char schedulingID[6];
     char teamA[6];
     char teamB[6];
+    char teamAName[15];
+    char teamBName[15];
+    char date[12];
     char result[20];
     int isODI;
     int isTEST;
@@ -129,11 +93,26 @@ class Schedulling : public Team
     friend std::istream &operator>>(std::istream &in, Schedulling &schedulling);
 
 public:
-    char *getTeamAID() { return teamA; }
-    char *getTeamBID() { return teamB; }
-    int getODIStatus() { return isODI; }
-    int getTESTStatus() { return isTEST; }
-    int getT20Status() { return isT20; }
+    char *getTeamAID()
+    {
+        return teamA;
+    }
+    char *getTeamBID()
+    {
+        return teamB;
+    }
+    int getODIStatus()
+    {
+        return isODI;
+    }
+    int getTESTStatus()
+    {
+        return isTEST;
+    }
+    int getT20Status()
+    {
+        return isT20;
+    }
 
     void modifySchedullingResult()
     {
@@ -143,92 +122,33 @@ public:
         cin.ignore();
         cin.getline(result, 20, '\n');
     }
-
-    char *getSchedullingID() { return schedulingID; }
+    char *getSchedullingID()
+    {
+        return schedulingID;
+    }
 
     void report()
     {
-        cout << setw(6) << left << schedulingID
-             << " | " << setw(6) << left << teamA
-             << " | " << setw(6) << left << teamB
-             << " | " << setw(20) << left << result
-             << " | " << setw(3) << left << isODI
-             << " | " << setw(4) << left << isTEST
-             << " | " << setw(3) << left << isT20
-             << " | " << endl;
+        string odiStatus=isODI?"Yes":"No";
+        string testStatus=isTEST?"Yes":"No";
+        string t20Status=isT20?"Yes":"No";
+
+        cout << setw(10) << left << schedulingID
+             << " * " << setw(6) << left << teamA
+             << " * " << setw(15) << left << teamAName
+             << " * " << setw(6) << left << teamB
+             << " * " << setw(15) << left << teamBName
+             << " * " << setw(12) << left << date
+             << " * " << setw(20) << left << result
+             << " * " << setw(3) << left << odiStatus
+             << " * " << setw(4) << left << testStatus
+             << " * " << setw(3) << left << t20Status
+             << " * " << endl;
     }
 };
 
-//***************************************************************
-///    	Operating Ovellodin section
+///    	Operating Overloading section
 //****************************************************************
-
-ostream &operator<<(ostream &out, const Player &player)
-{
-    out << "\nId: " << player.id;
-    out << "\nName: " << player.name;
-    out << "\nTeam ID: " << player.teamID;
-    string checkAlrounder;
-    if (player.isAlrounder == 0)
-    {
-        checkAlrounder = "False";
-    }
-    else
-    {
-        checkAlrounder = "True";
-    }
-    out << "\nAlrounder: " << checkAlrounder;
-
-    string checkTopBatsman;
-    if (player.isTopBatsman == 0)
-    {
-        checkTopBatsman = "False";
-    }
-    else
-    {
-        checkTopBatsman = "True";
-    }
-    out << "\nTop Batsman: " << checkTopBatsman;
-    string checkTopBoller;
-    if (player.isTopBoller == 0)
-    {
-        checkTopBoller = "False";
-    }
-    else
-    {
-        checkTopBoller = "True";
-    }
-    out << "\nTop Boller: " << checkTopBoller;
-
-    return out;
-}
-
-istream &operator>>(istream &in, Player &player)
-{
-
-    cout << "\nNew Player Entry.....\n";
-    cout << "\nEnter The Player ID: ";
-    in >> player.id;
-    cout << "\nName: ";
-    in.ignore();
-    in.getline(player.name, sizeof(player.name), '\n');
-    cout << "\nTeam ID: ";
-    in >> player.teamID;
-    cout << "\nIs Alrounder? : ";
-    in >> player.isAlrounder;
-    cout << "\nIs Top Batsman? : ";
-    in >> player.isTopBatsman;
-    cout << "\nIs Top Boller? : ";
-    in >> player.isTopBoller;
-    cout << "\nBatting Average: ";
-    in >> player.battingAvg;
-    cout << "\nBolling Average: ";
-    in >> player.bollingAVg;
-    cout << "\n\nPlayer Created Successfully..";
-
-    return in;
-}
-
 ostream &operator<<(ostream &out, const Team &team)
 {
     out << "\nId: " << team.id;
@@ -239,13 +159,10 @@ ostream &operator<<(ostream &out, const Team &team)
     out << "\nLost Test: " << team.lostTest;
     out << "\nWin T20: " << team.winT20;
     out << "\nLost T20: " << team.lostT20;
-
     return out;
 }
-
 istream &operator>>(istream &in, Team &team)
 {
-
     cout << "\nNew Team Entry.....\n";
     cout << "\nEnter The Team ID: ";
     in >> team.id;
@@ -268,20 +185,26 @@ istream &operator>>(istream &in, Team &team)
 
     return in;
 }
-
 ostream &operator<<(ostream &out, const Schedulling &schedulling)
 {
+
+    string odiStatus=schedulling.isODI?"Yes":"No";
+        string testStatus=schedulling.isTEST?"Yes":"No";
+        string t20Status=schedulling.isT20?"Yes":"No";
+
     out << "\nId: " << schedulling.schedulingID;
     out << "\nTeam A ID: " << schedulling.teamA;
+    out << "\nTeam A NAME: " << schedulling.teamAName;
     out << "\nTeam B ID: " << schedulling.teamB;
+    out << "\nTeam B NAME: " << schedulling.teamBName;
+    out << "\nDate: " << schedulling.date;
     out << "\nResult: " << schedulling.result;
-    out << "\nIs Odi: " << schedulling.isODI;
-    out << "\nIS Test: " << schedulling.isTEST;
-    out << "\nIS T20: " << schedulling.isT20;
+    out << "\nIs Odi: " << odiStatus;
+    out << "\nIS Test: " << testStatus;
+    out << "\nIS T20: " << t20Status;
 
     return out;
 }
-
 istream &operator>>(istream &in, Schedulling &schedulling)
 {
 
@@ -290,12 +213,20 @@ istream &operator>>(istream &in, Schedulling &schedulling)
     in >> schedulling.schedulingID;
     cout << "\nTeam A ID: ";
     in >> schedulling.teamA;
+    cout << "\nTeam A Name: ";
+    in.ignore();
+    in.getline(schedulling.teamAName,15,'\n');
     cout << "\nTeam B ID: ";
     in >> schedulling.teamB;
-    cout << "\nResult: ";
+    cout << "\nTeam B Name: ";
     in.ignore();
+    in.getline(schedulling.teamBName,15,'\n');
+    cout << "\nDate: ";
+    in.clear();
+    in.getline(schedulling.date,12,'\n');
+    cout << "\nResult: ";
+    in.clear();
     in.getline(schedulling.result, sizeof(schedulling.result), '\n');
-
     cout << "\nIS ODI?: ";
     in >> schedulling.isODI;
     cout << "\nIS TEST?: ";
@@ -307,34 +238,18 @@ istream &operator>>(istream &in, Schedulling &schedulling)
     return in;
 }
 
-//***************************************************************
 ///    	global declaration for stream object, object
 //****************************************************************
 fstream fp, fp1;
-class PointTable : public Player, public Team, public Schedulling
+class PointTable : public Team, public Schedulling
 {
-    Player player;
     Team team;
     Schedulling schedulling;
 
 public:
-    //***************************************************************
-    ///    	function to write in file
-    //****************************************************************
-    void insertPlayer()
-    {
-        char ch;
-        fp.open("player.dat", ios::out | ios::app);
-        do
-        {
-            cin >> player;
-            fp.write((char *)&player, sizeof(Player));
-            cout << "\n\nDo you Want to add more record..(y/n?): ";
-            cin >> ch;
-        } while (ch == 'y' || ch == 'Y');
-        fp.close();
-    }
 
+    ///    	function to write in file
+//****************************************************************
     void insertTeam()
     {
         char ch;
@@ -345,7 +260,8 @@ public:
             fp.write((char *)&team, sizeof(Team));
             cout << "\n\nDo you Want to add more record..(y/n?): ";
             cin >> ch;
-        } while (ch == 'y' || ch == 'Y');
+        }
+        while (ch == 'y' || ch == 'Y');
         fp.close();
     }
 
@@ -359,32 +275,13 @@ public:
             fp.write((char *)&schedulling, sizeof(Schedulling));
             cout << "\n\nDo you Want to add more record..(y/n?): ";
             cin >> ch;
-        } while (ch == 'y' || ch == 'Y');
-        fp.close();
-    }
-
-    //***************************************************************
-    ///   	function to read specific record from file
-    //****************************************************************
-
-    void displaySpecificPlayer(char n[])
-    {
-        cout << "\nPlayer Details\n";
-        int flag = 0;
-        fp.open("player.dat", ios::in);
-        while (fp.read((char *)&player, sizeof(Player)))
-        {
-            if (strcmpi(player.getPlayerID(), n) == 0)
-            {
-                cout << player;
-                flag = 1;
-            }
         }
+        while (ch == 'y' || ch == 'Y');
         fp.close();
-        if (flag == 0)
-            cout << "\n\nPlayer does not exist.";
     }
 
+    ///   	function to read specific record from file
+//****************************************************************
     void displaySpecificTeam(char n[])
     {
         cout << "\nTeam Details\n";
@@ -402,7 +299,6 @@ public:
         if (flag == 0)
             cout << "\n\nTeam does not exist.";
     }
-
     void displaySpecificSchedulling(char n[])
     {
         cout << "\nSchedulling Details\n";
@@ -420,38 +316,6 @@ public:
         if (flag == 0)
             cout << "\n\nSchedullingdoes not exist.";
     }
-
-    //***************************************************************
-    ///    	function to modify record of file
-    //****************************************************************
-
-    void modifyPlayer()
-    {
-        char n[6];
-        int found = 0;
-        cout << "\n\nModify Player Recorded Section......";
-        cout << "\n\nEnter the Player ID: ";
-        cin >> n;
-        fp.open("player.dat", ios::in | ios::out);
-        while ((fp.read((char *)&player, sizeof(Player))) && found == 0)
-        {
-            if (strcmpi(player.getPlayerID(), n) == 0)
-            {
-                cout << player;
-                cout << "\nEnter The New Details of Player\n";
-                player.modifyPlayer();
-                int pos = -1 * sizeof(player);
-                fp.seekp(pos, ios::cur);
-                fp.write((char *)&player, sizeof(Player));
-                cout << "\n\n\t Record Updated...";
-                found = 1;
-            }
-        }
-        fp.close();
-        if (found == 0)
-            cout << "\n\n Record Not Found";
-    }
-
     void modifyTeam()
     {
         char n[6];
@@ -478,10 +342,8 @@ public:
         if (found == 0)
             cout << "\n\n Record Not Found";
     }
-
-    void modifyTeamAfterResult(char n[6], int odi, int test, int t20, bool isWin, int found)
+    void modifyTeamAfterResult(char n[6], int odi, int test, int t20, bool isWin,int found )
     {
-
         fp.open("team.dat", ios::in | ios::out);
         while ((fp.read((char *)&team, sizeof(Team))) && found == 0)
         {
@@ -499,7 +361,6 @@ public:
         if (found == 0)
             cout << "\n\n Record Not Found\n\n";
     }
-
     void modifySchedullingResult()
     {
         char n[6];
@@ -541,35 +402,8 @@ public:
             cout << "\n\n Record Not Found";
     }
 
-    //***************************************************************
     ///    	function to delete record of file
     //****************************************************************
-
-    void deletePlayer()
-    {
-        
-        char n[6];
-        cout << "\n\n\n\tDelete Player.............";
-        cout << "\n\nEnter the Player ID: ";
-        cin >> n;
-        fp.open("player.dat", ios::in | ios::out);
-        fstream fp2;
-        fp2.open("temp.dat", ios::out);
-        fp.seekg(0, ios::beg);
-        while (fp.read((char *)&player, sizeof(Player)))
-        {
-            if (strcmpi(player.getPlayerID(), n) != 0)
-            {
-                fp2.write((char *)&player, sizeof(Player));
-            }
-        }
-        fp2.close();
-        fp.close();
-        remove("player.dat");
-        rename("temp.dat", "player.dat");
-        cout << "\n\n\tRecord Deleted ..";
-    }
-
     void deleteTeam()
     {
         char n[6];
@@ -594,38 +428,8 @@ public:
         cout << "\n\n\tRecord Deleted ..";
     }
 
-    //***************************************************************
     ///    	function to display all list
     //****************************************************************
-
-    void displayAllPlayers()
-    {
-        fp.open("player.dat", ios::in);
-        if (!fp)
-        {
-            cout << "Error !!! File Could not be OPEN";
-            return;
-        }
-        cout << "\n\n\t\t Player List\n\n";
-        cout << "=================================================================================================================================\n";
-        cout << setw(6) << left << "ID"
-             << " | " << setw(20) << left << "Name"
-             << " | " << setw(7) << left << "TEAM ID"
-             << " | " << setw(9) << left << "AlRounder"
-             << " | " << setw(10) << left << "TopBatsman"
-             << " | " << setw(9) << left << "TopBoller"
-             << " | " << setw(11) << left << "Batting AVG"
-             << " | " << setw(11) << left << "Bolling AVG"
-             << " | " << endl;
-
-        cout << "==================================================================================================================================\n";
-        while (fp.read((char *)&player, sizeof(Player)))
-        {
-            player.report();
-        }
-        fp.close();
-    }
-
     void displayAllTeam()
     {
         fp.open("team.dat", ios::in);
@@ -635,18 +439,15 @@ public:
             return;
         }
         cout << "\n\n\t\t Team List\n\n";
-        cout << "=================================================================================================================================\n";
         cout << setw(6) << left << "ID"
-             << " | " << setw(20) << left << "Name"
-             << " | " << setw(7) << left << "Win ODI"
-             << " | " << setw(8) << left << "Lost ODI"
-             << " | " << setw(8) << left << "Win TEST"
-             << " | " << setw(9) << left << "Lost TEST"
-             << " | " << setw(7) << left << "Win T20"
-             << " | " << setw(8) << left << "Lost T20"
-             << " | " << endl;
-
-        cout << "==================================================================================================================================\n";
+             << " * " << setw(20) << left << "Name"
+             << " * " << setw(7) << left << "Win ODI"
+             << " * " << setw(8)<< left << "Lost ODI"
+             << " * " << setw(9) << left << "Win TEST"
+             << " * " << setw(9) << left << "Lost TEST"
+             << " * " << setw(7) << left << "Win T20"
+             << " * " << setw(9) << left << "Lost T20"
+             << " * " << endl;
 
         while (fp.read((char *)&team, sizeof(Team)))
         {
@@ -654,7 +455,6 @@ public:
         }
         fp.close();
     }
-
     void displayAllSchedulling()
     {
         fp.open("schedulling.dat", ios::in);
@@ -665,9 +465,12 @@ public:
         }
         cout << "\n\n\t\t Schedulling List\n\n";
         cout << "=================================================================================================================================\n";
-        cout << setw(6) << left << "ID"
+        cout << setw(10) << left << "ID"
              << " | " << setw(6) << left << "Team A"
+             << " | " << setw(15) << left << "Team A NAME"
              << " | " << setw(6) << left << "Team B"
+             << " | " << setw(15) << left << "Team B NAME"
+             << " | " << setw(12) << left << "Date"
              << " | " << setw(20) << left << "Result"
              << " | " << setw(3) << left << "ODI"
              << " | " << setw(4) << left << "TEST"
@@ -683,69 +486,12 @@ public:
         fp.close();
     }
 };
-
-//***************************************************************
 ///    	INTRODUCTION FUNCTION
 //****************************************************************
-
-void intro()
-{
-
-    cout << "\n\nProject : Sports Scheduling And Result OOP Project";
-    cout << "\n\nMADE BY :Mitu";
-    cout << "\n\nID :194044";
-    cout << "\n\nUniversity : Dhaka University & Engineering Technology";
-}
-
-void adminMenuPlayer()
-{
-
-    int ch2;
-    PointTable poinTable;
-
-    cout << "\n\n\n\tPlayer MENU";
-    cout << "\n\n\t1.CREATE PLAYER RECORD";
-    cout << "\n\n\t2.DISPLAY ALL PLAYER RECORD";
-    cout << "\n\n\t3.DISPLAY SPECIFIC PLAYER RECORD ";
-    cout << "\n\n\t4.MODIFY PLAYER RECORD";
-    cout << "\n\n\t5.DELETE PLAYER RECORD";
-    cout << "\n\n\t6.BACK TO MAIN MENU";
-    cout << "\n\n\tPlease Enter Your Choice (1-6) ";
-    cin >> ch2;
-    switch (ch2)
-    {
-    case 1:
-        poinTable.insertPlayer();
-        break;
-    case 2:
-        poinTable.displayAllPlayers();
-        break;
-    case 3:
-        char num[6];
-        cout << "\n\n\tPlease Enter The Player ID: ";
-        cin >> num;
-        poinTable.displaySpecificPlayer(num);
-        break;
-    case 4:
-        poinTable.modifyPlayer();
-        break;
-    case 5:
-        poinTable.deletePlayer();
-        break;
-    case 6:
-        return;
-    default:
-        cout << "\a";
-    }
-    adminMenuPlayer();
-}
-
 void adminMenuTeam()
 {
-
     int ch2;
     PointTable poinTable;
-
     cout << "\n\n\n\tTEAM MENU";
     cout << "\n\n\t1.CREATE TEAM RECORD";
     cout << "\n\n\t2.DISPLAY ALL TEAM RECORD";
@@ -782,7 +528,6 @@ void adminMenuTeam()
     }
     adminMenuTeam();
 }
-
 void adminMenuSchedulling()
 {
 
@@ -821,45 +566,36 @@ void adminMenuSchedulling()
     }
     adminMenuSchedulling();
 }
-
-//***************************************************************
 ///    	THE MAIN FUNCTION OF PROGRAM
 //****************************************************************
 
 int main()
 {
     char ch;
-    intro();
     do
     {
-
         cout << "\n\n\n\tMAIN MENU";
-        cout << "\n\n\t01. PLAYER MENU";
+        cout << "\n\n\t01. TOUNERMENT SCHEDULLINNG MENU";
         cout << "\n\n\t02. TEAM MENU";
-        cout << "\n\n\t03. SCHEDULLINNG MENU";
-        cout << "\n\n\t04. EXIT";
-        cout << "\n\n\tPlease Select Your Option (1-4) ";
+        cout << "\n\n\t03. EXIT";
+        cout << "\n\n\tPlease Select Your Option (1-3) ";
         ch = getche();
         switch (ch)
         {
-        case '1':
-            adminMenuPlayer();
-            break;
         case '2':
             adminMenuTeam();
             break;
-        case '3':
+        case '1':
             adminMenuSchedulling();
             break;
-        case '4':
+        case '3':
             exit(0);
         default:
             cout << "\a";
         }
-    } while (ch != '4');
+    }
+    while (ch != '3');
     return 0;
 }
-
-//***************************************************************
 ///    			END OF PROJECT
-//***************************************************************
+//****************************************************************
