@@ -6,24 +6,25 @@
             Department of CSE, Dhaka University of Engineering & Technology,DUET.
 
 ***/
-#include <bits/stdc++.h>
-using namespace std;
 
+#include <stdio.h>
 #define ebar_khela_jombe_besh int main(void)
 #define jitsen_bhai return 0
-#define llu unsigned long long
-#define lld long long
-#define U unsigned int
+#define it int
+#define max(x, y) (((x) > (y)) ? (x) : (y))
+
+it max_of_four(it a, it b, it c, it d)
+{
+
+    return max(max(a, b), max(c, d));
+}
 
 ebar_khela_jombe_besh
 {
-    int n;
-    cin >> n;
-    int a[n];
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    for (int i = n - 1; i >= 0; i--)
-        cout << a[i] << " ";
+    it a, b, c, d;
+    scanf("%d %d %d %d", &a, &b, &c, &d);
+    it ans = max_of_four(a, b, c, d);
+    printf("%d", ans);
 
     jitsen_bhai;
 }
